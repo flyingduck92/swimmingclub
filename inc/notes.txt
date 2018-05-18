@@ -1,0 +1,73 @@
+Officers           <h4><a href="results.php">Gala\'s Result</a></h4>
+                            // Shows Result order by date with pagination
+                            // Shows Result order by date filter by groups
+                            // Shows Result order by date filter by race_type order by date 
+                    
+                    <!-- CRUD operation -->
+                    <h4><a href="result.php">Gala\'s Management</a></h4>
+                            // Race Type Management   -> officers/racetype/index.php -> read
+                                                      -> officers/racetype/add.php -> create
+                                                      -> officers/racetype/edit.php -> update
+                                                      -> officers/racetype/delete.php -> delete
+                            // Group Management       -> officers/groups/index.php -> read
+                                                      -> officers/groups/add.php -> create
+                                                      -> officers/groups/edit.php -> update
+                                                      -> officers/groups/delete.php -> delete
+                            // Event Management       -> officers/events/index.php -> read
+                                                      -> officers/events/add.php -> create
+                                                      -> officers/events/edit.php -> update
+                                                      -> officers/events/delete.php -> delete
+                            // Heat_Final Management  -> officers/heatsfinal/index.php -> read
+                                                      -> officers/heatsfinal/add.php -> create
+                                                      -> officers/heatsfinal/edit.php -> update
+                                                      -> officers/heatsfinal/delete.php -> delete
+                            // Venue Management       -> officers/venues/index.php -> read
+                                                      -> officers/venues/add.php -> create
+                                                      -> officers/venues/edit.php -> update
+                                                      -> officers/venues/delete.php -> delete
+                            // Race Management        -> officers/galas/index.php -> read
+                              -race type:             -> officers/galas/add.php -> create
+                                  1. Sprint           -> officers/galas/edit.php -> update
+                                  2. Distance         -> officers/galas/delete.php -> delete
+
+                    <!-- CRUD operation -->
+                    <h4><a href="userManagement.php">User\'s Management</a></h4>
+                            // Swimmers Management -> officers/swimmers/index.php -> read
+                                                   -> officers/swimmers/add.php -> create
+                                                   -> officers/swimmers/edit.php -> update
+                                                   -> officers/swimmers/delete.php -> delete
+                            // Parents Management  -> officers/parents/index.php -> read
+                                                   -> officers/parents/add.php -> create
+                                                   -> officers/parents/edit.php -> update
+                                                   -> officers/parents/delete.php -> delete
+                            // Admin Management    -> officers/admins/index.php -> read
+                                                   -> officers/admins/add.php -> create
+                                                   -> officers/admins/edit.php -> update
+                                                   -> officers/admins/delete.php -> delete
+
+                ';
+
+
+
+Parents            <h4><a href="result.php">Gala\'s Result</a></h4>
+                          // Shows Result order by date with pagination
+                          // Shows Result order by date filter by groups
+                          // Shows Result order by date filter by race_type order by date 
+
+                    <!-- View & Update Operation on Swimmer Password-->
+                    <h4><a href="swimmers.php">Swimmer\'s List</a></h4> 
+                          -> parents/swimmers/index.php -> read
+                          -> parents/swimmers/add.php -> create
+                          -> parents/swimmers/edit.php -> update
+                          -> parents/swimmers/delete.php -> delete
+
+
+Swimmers            <h4><a href="result.php">Gala\'s Result</a></h4>
+                          // Shows Result order by date with pagination
+                          // Shows Result order by date filter by groups
+                          // Shows Result order by date filter by race_type order by date 
+
+                    <h4><a href="myresult.php">My result</a></h4>
+                          // Shows myResult order by date with pagination
+                          // Shows myResult order by date filter by groups
+                          // Shows myResult order by date filter by race_type order by date 

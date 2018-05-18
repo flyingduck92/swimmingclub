@@ -1,0 +1,350 @@
+/* HTML Full Background*/
+html { 
+  background: url(../pics/swimming-bg-wallpapers.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/*Form*/
+form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 550px;
+    padding: 4px;
+    color: #000;
+    background-color: #fff;
+    font-size: 14pt;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#login-page {
+    margin-top: 5%;
+}
+
+fieldset {
+    border-radius: 10px;
+}
+
+input[type='text'],input[type='date'],input[type='password'],input[type='email'] {
+    text-align: center;
+    width: 80%;
+    margin-bottom: 12px;
+}
+
+input[type='checkbox'] {
+    margin-bottom: 12px;
+}
+
+input[type="date"]::before { 
+    content: attr(placeholder);
+    text-align: center;
+    width: 100%;
+}
+
+input[type="date"]:focus::before,
+input[type="date"]:valid::before { display: none }
+
+.btn-register {
+    height: 35px;
+    width: 546px;
+    font-size: 14pt;
+    color: white;
+    background-color: #173e95;
+}
+
+.btn-login {
+    height: 35px;
+    width: 546px;
+    font-size: 14pt;
+    color: white;
+    background-color: #2b8cea;
+}
+
+body { margin: 20px;  }
+
+a {
+    color: #000;
+}
+
+nav ul {
+    overflow: hidden;
+    color: white;
+    padding: 0;
+    text-align: center;
+    margin: 0;
+
+    /*animate*/
+    -webkit-transition: max-height 0.4s;
+    -moz-transition: max-height 0.4s;
+    -o-transition: max-height 0.4s;
+    transition: max-height 0.4s;
+}
+
+nav ul li {
+    display: inline-block;
+    padding: 10px;
+    border-bottom: solid 1px #0099CC;
+}
+
+#handle {
+    color: white;
+    width: 100%;
+    background: #6c6cf7;
+    text-align: left;
+    box-sizing: border-box;
+    padding: 15px 10px;
+    cursor: pointer;
+    display: none;
+}
+
+#handle > span {
+    float: right;
+}
+
+.bg {
+    background-color: #0099CC;
+    width: 100%;
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.box {
+    color: #444;
+    background-color: #99ccff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.header {
+    grid-area: h;
+    color: #000;
+    padding: 10px;
+    text-align: center;
+}
+
+.nav {
+    grid-area: n;
+    font-size: 150%;
+}
+
+.main {
+    grid-area: m;
+    color: #000;
+    background-color: #9aa2ec;
+    border: 1px solid #99ccff;
+    text-align: center;
+}
+
+#about {
+    text-align: center;
+}
+
+.about-main {
+    text-align: left;
+}
+
+.footer {
+    color: #000;
+    grid-area: f;
+    font-size: 110%;
+    text-align: center;
+}
+
+nav ul li:hover {
+    color: #fff;
+    background-color: #0099CC;
+    border: solid 1px #0099CC;
+    border-radius: 10px;
+}
+
+.front-pic {
+    width: 60%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
+
+.dolphin {
+    width: 10%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
+
+
+/*desktop*/
+@media screen and (max-width: 2050px) {
+
+    .front-pic {
+        width: 80%;
+    }
+
+    .front-pic {
+        width: 50%;
+    }
+
+    .dolphin {
+        width: 10%;
+    }
+
+    .container {
+        display: grid;
+        grid-gap: 15px;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 85px 85px repeat(auto-fit, minmax(550px, 1fr)) 85px;
+        grid-template-areas: 
+        "h h h h h h h h h h h h"
+        "n n n n n n n n n n n n"
+        "m m m m m m m m m m m m" 
+        "f f f f f f f f f f f f" 
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    .front-pic {
+        width: 80%;
+    }
+
+    .dolphin {
+        width: 10%;
+    }
+
+
+    .bg {
+        height: 80%; 
+    }
+
+    .container {
+        display: grid;
+        grid-gap: 15px;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 85px 85px repeat(auto-fit, minmax(550px, 1fr)) 85px;
+        grid-template-areas: 
+        "h h h h h h h h h h h h"
+        "n n n n n n n n n n n n"
+        "m m m m m m m m m m m m" 
+        "f f f f f f f f f f f f" 
+    }
+}
+
+/*Medium Screen*/
+@media screen and (max-width: 768px) {
+
+    .front-pic {
+        width: 80%;
+    }
+    
+    .dolphin {
+        width: 10%;
+    }
+
+    .bg {
+        height: 100%; 
+    }
+
+    .container {
+        display: grid;
+        grid-gap: 15px;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 108px 100px repeat(auto-fit, minmax(550px, 1fr)) 100px;
+        grid-template-areas: 
+        "h h h h h h h h h h h h"
+        "n n n n n n n n n n n n"
+        "m m m m m m m m m m m m" 
+        "f f f f f f f f f f f f" 
+    }
+}
+
+/*Small Screen*/
+@media screen and (max-width: 660px) {
+    
+    /*Responsive Form start*/
+    form {
+        width: 100%;
+    }
+
+    input {
+        width: 80%;
+    }
+
+    .btn-register, .btn-login {
+        height: 35px;
+        width: 100%;
+    }
+
+    /*Responsive Form end*/
+
+    .front-pic {
+        width: 80%;
+    }
+
+    .dolphin {
+        width: 15%;
+    }
+
+
+    .bg {
+        height: 100%; 
+    }
+
+    .container {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
+        grid-template-areas: 
+        "h  h  h"
+        "n  n  n"
+        "m  m  m"
+        "f  f  f"
+      }  
+    
+    /*hide nav*/
+    nav ul {
+        max-height: 0;
+    }
+    
+    /*set the max-height of nav*/
+    .showMenu {
+        max-height: 20em;
+    }
+
+    nav ul li {
+        box-sizing: border-box;
+        border-top: 1px solid #6c6cf7;
+        border-bottom: 0;
+        width: 100%;
+        padding: 15px;
+        text-align: left;
+    }
+
+    #handle {
+        display: block;
+    } 
+}
+
+span.error {
+    border-radius: 5px;
+    box-shadow: 0 0 25px #333;
+    padding: 10px;
+    background-color: #ef1f33;
+    color: white;
+    font-size: 14px;
+}
+
+span.success {
+    border-radius: 5px;
+    box-shadow: 0 0 25px #333;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    font-size: 14px;
+}
