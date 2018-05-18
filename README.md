@@ -19,5 +19,5 @@ Swimmers
 * password: user123
 
 ```
-<p>Database included in <b>pwa.rar</b></p>
+<p>Database included in **pwa.rar**</p>
 ```
