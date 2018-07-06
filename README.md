@@ -1,7 +1,5 @@
 Swimming Club
 =============
-
-Website running on http://www.sekti92.gwiddle.co.uk
  
 Admin
 =====
