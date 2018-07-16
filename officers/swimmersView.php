@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -21,40 +22,40 @@
     $expected = array('id');
     $validationMsg = array();
     $submittedData = array();
-    
+
  ?>
 
     <main id="main-content">
 
-        <?php 
-            // get data from page load where id 
+        <?php
+            // get data from page load where id
             // groupEdit.php?id=32
             if($_GET) {
 
                 $id = trim((int)$_GET['id']);
                 $id = htmlentities($id, ENT_COMPAT, 'UTF-8');
-               
+
                 if($message = typePatternCheck('id', $id)) {
                     $validationMsg['id'] = errMsg($message);
                 }
 
-                if($validationMsg) { 
-                    echo '<h1>Oops something happen!</h1>';            
+                if($validationMsg) {
+                    echo '<h1>Oops something happen!</h1>';
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="swimmersList.php">here</a> to go back to previous menu</h3>';
                 }
-                
+
             }
         ?>
 
-        <?php 
+        <?php
             // if no error load
             // print_r($validationMsg);
             if(empty($validationMsg['id'])) {
-                $queryOne = query('SELECT s.id,s.username,s.fname,s.lname,s.dob, s.active, 
-                                          p.email, p.parent_name, p.phone, p.address, p.postcode 
-                                   FROM swimmers s JOIN parents p ON s.email = p.email 
-                                   WHERE s.id = :id', 
+                $queryOne = query('SELECT s.id,s.username,s.fname,s.lname,s.dob, s.active,
+                                          p.email, p.parent_name, p.phone, p.address, p.postcode
+                                   FROM swimmers s JOIN parents p ON s.email = p.email
+                                   WHERE s.id = :id',
                                    array('id'=>$id)
                                 );
 
@@ -63,7 +64,7 @@
                 // if found data
                 if($queryOne) {
 
-        ?>  
+        ?>
                     <h1><a href="swimmersList.php">Swimmer List</a> / Swimmer ID <?= $queryOne[0]->id ?></h1>
                     <hr>
 
@@ -112,14 +113,14 @@
                                 <?= ($queryOne[0]->active)? 'Active':'Not Active' ?>
                             </p>
                         </div>
-                        
+
                     </div>
 
-                <?php 
+                <?php
                     // calculate HISTORY
-                    $galaHistory = query("SELECT t.gala_id, g.date, t.line_number, t.recordtime, t.finish_number 
+                    $galaHistory = query("SELECT t.gala_id, g.date, t.line_number, t.recordtime, t.finish_number
                                           FROM timerecords t JOIN swimmers s ON t.swimmer_name = UPPER(CONCAT(s.lname, ', ', s.fname))
-                                                             JOIN gala g ON g.id = t.gala_id 
+                                                             JOIN gala g ON g.id = t.gala_id
                                           WHERE t.swimmer_name = UPPER(CONCAT(:lname, ', ', :fname))
                                           ORDER BY g.date DESC",
                                           array('lname' => $queryOne[0]->lname, 'fname' => $queryOne[0]->fname)
@@ -128,7 +129,7 @@
                     // echo '<pre>';
                     // print_r($galaHistory);
 
-                    // if history found 
+                    // if history found
                     if(count($galaHistory) > 0) {
 
                 ?>
@@ -142,7 +143,7 @@
                             <th>Finish Number</th>
                             <th>Action</th>
                         </tr>
-                        
+
                         <?php
                             // loop data
                             for($i=0; $i < count($galaHistory); $i++) {
@@ -155,40 +156,40 @@
                                     <td>
                                         <a href="galaView.php?id='.$galaHistory[$i]->gala_id.'"><button class="info">View</button></a>
                                     </td>
-                                </tr>';        
+                                </tr>';
                             }
 
                          ?>
                     </table>
 
-                <?php 
+                <?php
 
                     // no result
                     } else {
                         echo '<h2>'.$queryOne[0]->username.' History</h2>';
                         echo '<h4> No Results</h4>';
-                    }               
+                    }
 
                  ?>
 
-        <?php       
+        <?php
 
                 } else {
 
-                    // if the id type is valid but doesn't exist 
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    // if the id type is valid but doesn't exist
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="swimmersList.php">here</a> to go back to previous menu</h3>';
 
-                } 
+                }
             }
         ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

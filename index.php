@@ -1,5 +1,5 @@
-<?php 
-    
+<?php
+    ob_start();
     include 'core/init.php';
 
     // check loggedIn or not
@@ -15,8 +15,8 @@
         header('Location: swimmers/index.php');
         exit();
 
-    } 
-    
+    }
+
     $header = 'Staffordshire Swimming Club';
     $title = 'Welcome to Staffordshire Swimming Club';
 
@@ -27,7 +27,7 @@
 ?>
 
     <main class="box main">
-        
+
         <h2><?= $title; ?></h2>
         <img class="front-pic" src="./assets/pics/swimming-wallpapers.jpg">
         <br>
@@ -40,9 +40,9 @@
         <p>If you are interested in joining, or for additional information about SSC, please see <a href="register.php">Joining SSC</a></p>
     </main>
 
-<?php 
+<?php
 
     // template footer
     include './inc/footer.php';
 
- ?>    
+ ?>

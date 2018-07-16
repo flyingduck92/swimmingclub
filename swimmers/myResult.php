@@ -1,5 +1,6 @@
 <?php
-    include '../core/init.php';
+     ob_start();
+     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 1) {
         header('Location: ../officers/index.php');
@@ -13,7 +14,7 @@
         header('Location: ../login.php');
         exit();
     }
-    
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     // include '../core/function/managementPageFunc.php';
@@ -25,11 +26,11 @@
 
     <main id="main-content">
 
-    <?php 
-        $queryOne = query('SELECT s.id,s.username,s.fname,s.lname,s.dob, s.active, 
-                                          p.email, p.parent_name, p.phone, p.address, p.postcode 
-                                   FROM swimmers s JOIN parents p ON s.email = p.email 
-                                   WHERE s.id = :id', 
+    <?php
+        $queryOne = query('SELECT s.id,s.username,s.fname,s.lname,s.dob, s.active,
+                                          p.email, p.parent_name, p.phone, p.address, p.postcode
+                                   FROM swimmers s JOIN parents p ON s.email = p.email
+                                   WHERE s.id = :id',
                                    array('id'=>$userData[0]->id)
                                 );
 
@@ -37,7 +38,7 @@
                 // print_r($queryOne);
                 // if found data
                 if($queryOne) {
-     ?>     
+     ?>
             <h1>My History</h1>
                     <hr>
 
@@ -88,12 +89,12 @@
                         </div>
                     </div>
 
-                <?php 
+                <?php
                     // calculate HISTORY
-                    
-                    $galaHistory = query("SELECT t.gala_id, g.date, t.line_number, t.recordtime, t.finish_number 
+
+                    $galaHistory = query("SELECT t.gala_id, g.date, t.line_number, t.recordtime, t.finish_number
                                           FROM timerecords t JOIN swimmers s ON t.swimmer_name = UPPER(CONCAT(s.lname, ', ', s.fname))
-                                                             JOIN gala g ON g.id = t.gala_id 
+                                                             JOIN gala g ON g.id = t.gala_id
                                           WHERE t.swimmer_name = UPPER(CONCAT(:lname, ', ', :fname))
                                           ORDER BY g.date DESC",
                                           array('lname' => $queryOne[0]->lname, 'fname' => $queryOne[0]->fname)
@@ -102,7 +103,7 @@
                     // echo '<pre>';
                     // print_r($galaHistory);
 
-                    // if history found 
+                    // if history found
                     if(count($galaHistory) > 0) {
                 ?>
 
@@ -116,7 +117,7 @@
                             <th>Finish Number</th>
                             <th>Action</th>
                         </tr>
-                        
+
                         <?php
                             // loop data
                             for($i=0; $i < count($galaHistory); $i++) {
@@ -129,25 +130,25 @@
                                     <td>
                                         <a href="galaView.php?id='.$galaHistory[$i]->gala_id.'"><button class="info">View</button></a>
                                     </td>
-                                </tr>';        
+                                </tr>';
                             }
 
                          ?>
                     </table>
 
-     <?php 
+     <?php
             // no result
             } else {
                 echo '<h2>'.$queryOne[0]->username.' History</h2>';
                 echo '<h4> No Results</h4>';
-            }  
+            }
         }
-      ?>           
+      ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

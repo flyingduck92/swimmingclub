@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -25,7 +26,7 @@
     if($_POST) {
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -42,7 +43,7 @@
                 if($message = checkAvailability($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
+                $submittedData[$field] = $value;
             } else {
                 if(isRequired($field)) {
                     $validationMsg[$field] = errMsg('*Required!');
@@ -69,7 +70,7 @@
                     'active' => 1
             );
 
-            // get parent key 
+            // get parent key
             $officerField   = implode(",", array_keys($officerData));
             $officerValue   = ":".implode(",:", array_keys($officerData));
 
@@ -79,13 +80,13 @@
                 header('location: officersList.php?success');
             }
         }
-        
+
     }
 
  ?>
 
     <main id="main-content">
-        
+
         <h1><a href="officersList.php">Officer List</a> / Add Officer</h1>
         <hr><br>
 
@@ -119,13 +120,13 @@
             </label><br><br>
 
             <a href="#confirmation"><button type="button" class="info">Submit</button></a>
-            
+
             <!-- Modal for confirmation -->
             <div class="modal" id="confirmation">
                 <div class="modal-content">
                     <p>Are you sure?</p><br>
-                    <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                    <a><button type="submit" class="info">Yes</button></a>   
+                    <a href="#"><button type="button" class="edit">Cancel</button></a>
+                    <a><button type="submit" class="info">Yes</button></a>
                 </div>
             </div>
         </form>
@@ -139,11 +140,11 @@
                 id.type = 'text';
             } else {
                 id.type = 'password';
-            } 
+            }
         }
     </script>
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

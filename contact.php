@@ -1,5 +1,5 @@
-<?php 
-
+<?php
+    ob_start();
     include 'core/init.php';
 
     // check loggedIn or not
@@ -15,12 +15,12 @@
         header('Location: swimmers/index.php');
         exit();
 
-    } 
+    }
 
     if(connect() == false) {
         header('Location: index.php');
     }
-    
+
     $header = 'Staffordshire Swimming Club';
     $title = 'Contact Page';
 
@@ -31,7 +31,7 @@
 ?>
 
     <main class="box main">
-        
+
         <h2><?= $title; ?></h2>
         <img class="front-pic" src="./assets/pics/coaching.jpeg">
         <br>
@@ -45,15 +45,15 @@
             Stoke-on-Trent <br>
             Staffordshire ST4 2DE
         </address><br>
-        
-        <p>Please use the phone number on this page to contact us or email us to 
-            <a href="mailto:sektiwicaksono92@gmail.com" target="_top">Staffordshire Swimming Club</a> 
-        </p>  
+
+        <p>Please use the phone number on this page to contact us or email us to
+            <a href="mailto:sektiwicaksono92@gmail.com" target="_top">Staffordshire Swimming Club</a>
+        </p>
 
     </main>
 
-<?php 
+<?php
     // template footer
     include './inc/footer.php';
 
- ?>    
+ ?>

@@ -1,5 +1,5 @@
-<?php 
-
+<?php
+    ob_start();
     include 'core/init.php';
 
     // check loggedIn or not
@@ -15,13 +15,13 @@
         header('Location: swimmers/index.php');
         exit();
 
-    } 
+    }
 
     // check connection
     if(connect() == false) {
         header('Location: index.php');
     }
-    
+
     $header = 'Staffordshire Swimming Club';
     $title = 'About Page';
 
@@ -32,7 +32,7 @@
 ?>
 
     <main class="box main about-main">
-        
+
         <h2 id="about"><?= $title; ?></h2>
         <img class="front-pic" src="./assets/pics/competitive_swimmer.jpg">
         <br>
@@ -54,13 +54,13 @@
 
         <p>
             Swim England Summer National Championships 2017 - Qualifiers were David Bloomfield, Spencer Williams, Alesha Kelly, Emily Ellis, Taylor Williams, Sophia Ground and George Eldredge. <br>
-            ETU Duathlon European Championships 2017 - Staffordshire Master Leah Walland wins Bronze for GB. 
+            ETU Duathlon European Championships 2017 - Staffordshire Master Leah Walland wins Bronze for GB.
         </p>
 
     </main>
 
-<?php 
+<?php
     // template footer
     include './inc/footer.php';
 
-?>    
+?>

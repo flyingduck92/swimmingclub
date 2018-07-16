@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -29,7 +30,7 @@
 
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -70,12 +71,12 @@
                     'active' => $_POST['active'],
                 );
 
-                $updateParents = query('UPDATE parents 
-                                      SET parent_name = :parent_name, 
-                                          phone = :phone, 
-                                          address = :address,  
-                                          postcode = :postcode,  
-                                          active = :active  
+                $updateParents = query('UPDATE parents
+                                      SET parent_name = :parent_name,
+                                          phone = :phone,
+                                          address = :address,
+                                          postcode = :postcode,
+                                          active = :active
                                       WHERE id = :id', $submittedData);
 
             // if not empty email & empty password
@@ -90,22 +91,22 @@
                     'active' => $_POST['active'],
                 );
 
-                $updateParents = query('UPDATE parents 
-                                      SET email = :email, 
-                                          parent_name = :parent_name, 
-                                          phone = :phone, 
-                                          address = :address,  
-                                          postcode = :postcode,  
-                                          active = :active  
+                $updateParents = query('UPDATE parents
+                                      SET email = :email,
+                                          parent_name = :parent_name,
+                                          phone = :phone,
+                                          address = :address,
+                                          postcode = :postcode,
+                                          active = :active
                                       WHERE id = :id', $submittedData);
-            
+
             // if empty email & not empty password
             } else if(empty($_POST['email']) && !empty($_POST['password'])) {
-                
+
                 // encrypt password
                 $options = [ 'cost' => 12 ];
                 $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
-                
+
                 $submittedData = array(
                     'id' => $_POST['id'],
                     'parent_name' => $_POST['parent_name'],
@@ -114,20 +115,20 @@
                     'postcode' => $_POST['postcode'],
                     'password' => $_POST['password'],
                     'active' => $_POST['active'],
-                );            
-            
-                $updateParents = query('UPDATE parents 
-                                      SET parent_name = :parent_name, 
-                                          phone = :phone, 
-                                          address = :address,  
-                                          postcode = :postcode,  
-                                          password = :password,  
-                                          active = :active  
+                );
+
+                $updateParents = query('UPDATE parents
+                                      SET parent_name = :parent_name,
+                                          phone = :phone,
+                                          address = :address,
+                                          postcode = :postcode,
+                                          password = :password,
+                                          active = :active
                                       WHERE id = :id', $submittedData);
 
             // if not empty email & not empty password
             } else if(!empty($_POST['email']) && !empty($_POST['password'])) {
-                  
+
                 // encrypt password
                 $options = [ 'cost' => 12 ];
                 $_POST['password'] = password_hash($_POST['password'], PASSWORD_BCRYPT, $options);
@@ -142,50 +143,50 @@
                     'password' => $_POST['password'],
                     'active' => $_POST['active'],
                 );
-            
-                $updateParents = query('UPDATE parents 
+
+                $updateParents = query('UPDATE parents
                                       SET email = :email,
-                                          parent_name = :parent_name, 
-                                          phone = :phone, 
-                                          address = :address,  
-                                          postcode = :postcode,  
-                                          password = :password,  
-                                          active = :active  
+                                          parent_name = :parent_name,
+                                          phone = :phone,
+                                          address = :address,
+                                          postcode = :postcode,
+                                          password = :password,
+                                          active = :active
                                       WHERE id = :id', $submittedData);
             }
 
-            if($updateParents) { 
+            if($updateParents) {
                 header('Location: parentsList.php?update_success');
-            } 
-        }           
-        
+            }
+        }
+
     }
-    
+
  ?>
 
     <main id="main-content">
 
-        <?php 
-            // get data from page load by id 
+        <?php
+            // get data from page load by id
             if($_GET) {
 
                 $id = trim($_GET['id']);
                 $id = htmlentities($id, ENT_COMPAT, 'UTF-8');
-               
+
                 if($message = typePatternCheck('id', (int)$id)) {
                     $validationMsg['id'] = errMsg($message);
                 }
 
-                if(isset($validationMsg['id'])) { 
-                    echo '<h1>Oops something happen!</h1>';            
+                if(isset($validationMsg['id'])) {
+                    echo '<h1>Oops something happen!</h1>';
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="parentsList.php">here</a> to go back to previous menu</h3>';
-                } 
-                
+                }
+
             }
         ?>
 
-        <?php 
+        <?php
             // if no error load
             // print_r($validationMsg);
             if(empty($validationMsg['id']) && isset($_GET['id'])) {
@@ -196,7 +197,7 @@
                     // echo '***** <br>';
                     // print_r($queryOne);
 
-        ?>  
+        ?>
                     <h1><a href="parentsList.php">Back</a> / Edit Parent </h1>
                     <hr>
 
@@ -245,35 +246,35 @@
                                 <span class="slider"></span>
                             </label><br><br>
                         </label><br><br>
-                        
+
                         <a href="#confirmation"><button type="button" class="info">Submit</button></a>
-                        
+
                         <!-- Modal for confirmation -->
                         <div class="modal" id="confirmation">
                             <div class="modal-content">
                                 <p>Are you sure?</p><br>
-                                <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                                <a><button type="submit" class="info">Yes</button></a>   
+                                <a href="#"><button type="button" class="edit">Cancel</button></a>
+                                <a><button type="submit" class="info">Yes</button></a>
                             </div>
                         </div>
-                    </form>           
+                    </form>
 
-        <?php       
+        <?php
                 } else {
 
-                    // if the id type is valid but doesn't exist 
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    // if the id type is valid but doesn't exist
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="parentsList.php">here</a> to go back to previous menu</h3>';
 
-                } 
+                }
 
             } else {
 
                  // if the id doesn't isset
-                echo '<h1>Oops something happen!</h1>';    
-                $validationMsg['id'] = errMsg('Unindentified id!');        
+                echo '<h1>Oops something happen!</h1>';
+                $validationMsg['id'] = errMsg('Unindentified id!');
                 echo output(@$validationMsg['id']);
                 echo '<h3>We cannot process your request please click <a href="parentsList.php">here</a> to go back to previous menu</h3>';
 
@@ -289,12 +290,12 @@
                 id.type = 'text';
             } else {
                 id.type = 'password';
-            } 
+            }
         }
     </script>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

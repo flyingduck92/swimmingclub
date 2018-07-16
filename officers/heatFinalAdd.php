@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -25,7 +26,7 @@
     if($_POST) {
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -42,7 +43,7 @@
                 if($message = checkAvailability($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
+                $submittedData[$field] = $value;
             } else {
                 if(isRequired($field)) {
                     $validationMsg[$field] = errMsg('*Required!');
@@ -55,7 +56,7 @@
 
             $heatfinalData = array('description' => $submittedData['heatfinal_desc']);
 
-            // get parent key 
+            // get parent key
             $heatfinalField   = implode(",", array_keys($heatfinalData));
             $heatfinalValue   = ":".implode(",:", array_keys($heatfinalData));
 
@@ -66,11 +67,11 @@
             }
         }
     }
-    
+
  ?>
 
     <main id="main-content">
-        
+
         <h1><a href="heatFinalList.php">Heat/Final List</a> / Heat/Final Add </h1>
         <hr>
 
@@ -78,33 +79,33 @@
             <p><b>Note:</b> Only accept letters and numbers</p>
 
             <input required type="text" name="heatfinal_desc" placeholder="Please type here..." value="<?php output(@$heatfinal_desc) ?>"><br><br>
-            <?php 
+            <?php
                 if(isset($_GET['success']) && empty($_GET['success'])) {
                         $validationMsg['form'] = successMsg('Heat/Final Successfully Added');
                         output(@$validationMsg['form']);
-                } 
+                }
                 else {
-                    output(@$validationMsg['heatfinal_desc']); 
+                    output(@$validationMsg['heatfinal_desc']);
                 }
             ?>
             <br><br>
 
             <a href="#test"><button type="button" class="info">Submit</button></a>
-            
+
             <!-- Modal for confirmation -->
             <div class="modal" id="test">
                 <div class="modal-content">
                     <p>Are you sure?</p><br>
-                    <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                    <a><button type="submit" class="info">Yes</button></a>   
+                    <a href="#"><button type="button" class="edit">Cancel</button></a>
+                    <a><button type="submit" class="info">Yes</button></a>
                 </div>
             </div>
         </form>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

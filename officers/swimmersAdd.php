@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -29,7 +30,7 @@
         $_POST['active'] = 1;
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -46,7 +47,7 @@
                 if($message = checkAvailability($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
+                $submittedData[$field] = $value;
             } else {
                 if($field == 'phone') {}
                 else if(isRequired($field)) {
@@ -76,7 +77,7 @@
                     'active' => 1
             );
 
-            // get swimmer key 
+            // get swimmer key
             $swimmerField   = implode(",", array_keys($swimmerData));
             $swimmerValue   = ":".implode(",:", array_keys($swimmerData));
 
@@ -90,27 +91,27 @@
                 // send email if localhost (development)
                 if($_SERVER['SERVER_NAME'] == 'localhost') {
                     //  then send credential through email (localhost)
-                    send_email($submittedData['email'], "New Swimmer Credential", 
+                    send_email($submittedData['email'], "New Swimmer Credential",
                     "\nHello we just add new swimmer to your account
-                    \n\nThis is your new swimmer credential: 
-                    \nUsername : ".$submittedData['username']." 
-                    \nPassword : ".$_POST['password']." 
-                    \n\nPlease click go to below to login 
+                    \n\nThis is your new swimmer credential:
+                    \nUsername : ".$submittedData['username']."
+                    \nPassword : ".$_POST['password']."
+                    \n\nPlease click go to below to login
                     \nhttp://".$_SERVER['SERVER_NAME']."/pwa/login.php
-                    \n\nWarning: Do not share the login credential 
+                    \n\nWarning: Do not share the login credential
                     \n-Staffordshire Swimming Club-"
                     );
-                    
+
                 //  then send credential through email (hosting)
                 } else {
-                    send_email($submittedData['email'], "New Swimmer Credential", 
+                    send_email($submittedData['email'], "New Swimmer Credential",
                     "\nHello we just add new swimmer to your account
-                    \n\nThis is your new swimmer credential: 
-                    \nUsername : ".$submittedData['username']." 
-                    \nPassword : ".$_POST['password']." 
-                    \n\nPlease click go to below to login 
+                    \n\nThis is your new swimmer credential:
+                    \nUsername : ".$submittedData['username']."
+                    \nPassword : ".$_POST['password']."
+                    \n\nPlease click go to below to login
                     \nhttp://".$_SERVER['SERVER_NAME']."/login.php
-                    \n\nWarning: Do not share the login credential 
+                    \n\nWarning: Do not share the login credential
                     \n-Staffordshire Swimming Club-"
                     );
 
@@ -119,13 +120,13 @@
                 header('location: swimmersList.php?success');
             }
         } // end
-        
+
     }
 
  ?>
 
     <main id="main-content">
-        
+
         <h1><a href="swimmersList.php">Swimmer List</a> / Add Swimmer</h1>
         <hr><br>
 
@@ -164,25 +165,25 @@
             </label><br><br>
 
             <datalist id="email">
-            <?php 
+            <?php
                 // getAllEmails
                 $result = query("SELECT email from parents ORDER BY email");
-                
+
                 for($i = 0; $i<count($result);$i++) {
                     echo '<option value="'.$result[$i]->email.'">';
                 }
 
-             ?>    
+             ?>
             </datalist>
-            
+
             <a href="#confirmation"><button type="button" class="info">Submit</button></a>
-            
+
             <!-- Modal for confirmation -->
             <div class="modal" id="confirmation">
                 <div class="modal-content">
                     <p>Are you sure?</p><br>
-                    <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                    <a><button type="submit" class="info">Yes</button></a>   
+                    <a href="#"><button type="button" class="edit">Cancel</button></a>
+                    <a><button type="submit" class="info">Yes</button></a>
                 </div>
             </div>
         </form>
@@ -196,11 +197,11 @@
                 id.type = 'text';
             } else {
                 id.type = 'password';
-            } 
+            }
         }
     </script>
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

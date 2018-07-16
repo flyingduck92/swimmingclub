@@ -1,5 +1,5 @@
-<?php 
-
+<?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -13,7 +13,7 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
+    }
 
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
@@ -25,7 +25,7 @@
     if($_GET) {
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_GET[$field]);
 
             if(isNotEmpty($value)) {
@@ -34,11 +34,11 @@
                 if($message = typePatternCheck($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
-            } 
+                $submittedData[$field] = $value;
+            }
         }
 
-        // officer count check 
+        // officer count check
         $countOfficer = query('SELECT * from officers');
         $officerCheck = query('SELECT username from officers WHERE id = '.(int)$submittedData['id']);
 
@@ -53,7 +53,7 @@
             // if officer try to delete self
             if($username_from_session == $officerCheck[0]->username) {
                 header('Location: officersList.php?self_delete');
-                
+
             } else {
                 $deleteOfficer = query('DELETE from officers WHERE id = :id', array('id' => $submittedData['id']));
                 if($deleteOfficer) {
@@ -65,24 +65,24 @@
             // if officer only one
             header('Location: officersList.php?officer_one');
         }
-        
+
     }
  ?>
 
  <main id="main-content">
-        
-        <?php 
-        if(!empty($validationMsg)) { 
-            echo '<h1>Oops something happen!</h1>';            
+
+        <?php
+        if(!empty($validationMsg)) {
+            echo '<h1>Oops something happen!</h1>';
             echo output(@$validationMsg['id']);
             echo '<h3>We cannot process your request please click <a href="officersList.php">here</a> to go back to previous menu</h3>';
-        } 
+        }
         ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

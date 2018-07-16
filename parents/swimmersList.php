@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 1) {
@@ -13,26 +14,26 @@
         header('Location: ../login.php');
         exit();
     }
-    
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/dataPaginate.php';
-    
+
  ?>
 
     <main id="main-content">
 
-        <?php 
+        <?php
             if(isset($_GET['update_success']) && empty($_GET['update_success'])) {
                     $validationMsg['form'] = successMsg('Swimmer Successfully Updated');
                     output(@$validationMsg['form']);
-            } 
+            }
         ?>
-        
+
         <h1>Swimmer List</h1>
         <br>
 
-        <?php 
+        <?php
 
             $page = (isset($_GET['page'])) ? (int)$_GET['page']:1;
 
@@ -60,7 +61,7 @@
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-            <?php 
+            <?php
                 foreach ($results->data as $result) {
              ?>
                 <tr>
@@ -71,29 +72,29 @@
                     <td><?= $result->dob ?></td>
                     <td><?= ($result->active)? 'Active':'Not Active' ?></td>
                     <td>
-                    <a href="swimmersView.php?id=<?= $result->id; ?>"><button class="info">View</button></a> 
-                    <a href="swimmersEdit.php?id=<?= $result->id; ?>"><button class="edit">Edit</button></a> 
+                    <a href="swimmersView.php?id=<?= $result->id; ?>"><button class="info">View</button></a>
+                    <a href="swimmersEdit.php?id=<?= $result->id; ?>"><button class="edit">Edit</button></a>
                 </td>
-                </tr>                
-            <?php        
+                </tr>
+            <?php
                 }
              ?>
         </table>
 
-        <?php 
+        <?php
             echo '<br>';
             echo 'Total '.$results->total.'<br><br>';
 
             // pageLinks($links=3, $total, $limit, $page)
-            // show links: show 1 prev link and 1 next link, from current page 
-            $links=1; 
-            echo $showLinks = pageLinks($links, $results->total, $results->limit, $results->page); 
+            // show links: show 1 prev link and 1 next link, from current page
+            $links=1;
+            echo $showLinks = pageLinks($links, $results->total, $results->limit, $results->page);
          ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

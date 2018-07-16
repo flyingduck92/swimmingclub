@@ -1,5 +1,5 @@
-<?php 
-    
+<?php
+    ob_start();
     include 'core/init.php';
 
     // check loggedIn or not
@@ -15,7 +15,7 @@
         header('Location: swimmers/index.php');
         exit();
 
-    } 
+    }
 
     if(connect() == false) {
         header('Location: index.php');
@@ -38,7 +38,7 @@
     if($_POST) {
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -55,7 +55,7 @@
                 if($message = checkAvailability($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
+                $submittedData[$field] = $value;
             } else {
                 if(isRequired($field)) {
                     $validationMsg[$field] = errMsg('*Required!');
@@ -67,17 +67,17 @@
         if($submittedData['password'] != $submittedData['password2']) {
             $validationMsg['password2'] = errMsg('Passwords did not match!');
         }
-        // if error show notification to amend the registration form 
+        // if error show notification to amend the registration form
         if($validationMsg) {
             $validationMsg['form'] = errMsg('Please amend the required field');
 
         } else {
             // if everything is valid register data and send email
-            
+
             // remove the password2 from array
             unset($submittedData['password2']);
 
-            // setup cost bcrypt and hash the password 
+            // setup cost bcrypt and hash the password
             $options = [ 'cost' => 12 ];
             $submittedData['password'] = password_hash($submittedData['password'], PASSWORD_BCRYPT, $options);
 
@@ -103,7 +103,7 @@
                 'email'     => $submittedData['email']
             );
 
-            // get parent key 
+            // get parent key
             $parentsField   = implode(",", array_keys($parentsData));
             $parentsValue   = ":".implode(",:", array_keys($parentsData));
             // get swimmer key
@@ -113,26 +113,26 @@
             // insert to database
             $parentsRegister    = query('INSERT INTO parents('.$parentsField.') VALUES ('.$parentsValue.')', $parentsData);
             $swimmersRegister   = query('INSERT INTO swimmers('.$swimmersField.') VALUES ('.$swimmersValue.')', $swimmersData);
-            
+
             if($parentsRegister && $swimmersRegister) {
 
-                // send email if localhost 
+                // send email if localhost
                 if($_SERVER['SERVER_NAME'] == 'localhost') {
                     //  then send email for activation
-                    send_email($submittedData['email'], "Activate account", 
+                    send_email($submittedData['email'], "Activate account",
                     "\nHello ".$submittedData['fname']." ".$submittedData['lname']."
-                    \n\nPlease note password for parent and swimmer are the same 
-                    \n\nPlease click the link below to activate the accounts (check inbox or spam directory) 
+                    \n\nPlease note password for parent and swimmer are the same
+                    \n\nPlease click the link below to activate the accounts (check inbox or spam directory)
                     \n\nhttp://".$_SERVER['SERVER_NAME']."/pwa/activate.php?email=".$submittedData['email']."&username=".$submittedData['username']."
                     \n\n -Staffordshire Swimming Club-"
                     );
-                    
+
                 //  send email if hosting
                 } else {
-                    send_email($submittedData['email'], "Activate account", 
+                    send_email($submittedData['email'], "Activate account",
                     "\nHello ".$submittedData['fname']." ".$submittedData['lname']."
-                    \n\nPlease note password for parent and swimmer are the same 
-                    \n\nPlease click the link below to activate the accounts (check inbox or spam directory) 
+                    \n\nPlease note password for parent and swimmer are the same
+                    \n\nPlease click the link below to activate the accounts (check inbox or spam directory)
                     \n\nhttp://".$_SERVER['SERVER_NAME']."/activate.php?email=".$submittedData['email']."&username=".$submittedData['username']."
                     \n\n -Staffordshire Swimming Club-"
                     );
@@ -143,17 +143,17 @@
                 header('location: register.php?success');
             }
 
-        }   
+        }
     }
 
  ?>
 
     <main class="box main">
-        
+
        <form action="register.php" method="POST">
             <fieldset>
                 <legend><h1>Register</h1></legend>
-                <?php 
+                <?php
                     if(isset($_GET['success']) && empty($_GET['success'])) {
                         $validationMsg['form'] = successMsg('Registration Success. Please check your email for activation.');
                         output(@$validationMsg['form']);
@@ -164,19 +164,19 @@
                     }
                 ?>
                 <p>
-                    <b>Username</b><br> 
+                    <b>Username</b><br>
                     <input type="text" placeholder="Input your Username" name="username" required aria-required="true" maxlength="20" value="<?php output(@$username) ?>"/>
                     <br>
                     <?php output(@$validationMsg['username']) ?>
                 </p>
 
                 <p>
-                    <b>First Name</b><br> 
+                    <b>First Name</b><br>
                     <input type="text" placeholder="Input your First name" name="fname" required aria-required="true" maxlength="20" value="<?php output(@$fname) ?>"/>
                     <br>
                     <?php output(@$validationMsg['fname']) ?>
                 </p>
-                
+
                 <p>
                     <b>Last Name</b><br>
                     <input type="text" placeholder="Input your Last name" name="lname" required aria-required="true" maxlength="50" value="<?php output(@$lname) ?>"/>
@@ -204,7 +204,7 @@
                     <br>
                     <?php output(@$validationMsg['parentName']) ?>
                 </p>
-                
+
                 <p>
                     <b>Phone</b><br>
                     <input type="text" placeholder="Input your Phone number" name="phone" required aria-required="true" value="<?php output(@$phone) ?>" />
@@ -218,14 +218,14 @@
                     <br>
                     <?php output(@$validationMsg['address']) ?>
                 </p>
-                 
+
                  <p>
                     <b>Post code</b><br>
                     <input type="text" placeholder="Input your Post Code" name="postcode" required aria-required="true" value="<?php output(@$postcode) ?>" />
                     <br>
                     <?php output(@$validationMsg['postcode']) ?>
-                </p>  
-                   
+                </p>
+
                 <p>
                     <b>Password</b><br>
                     <input id='password' placeholder="Input your Password (must be between 4-25 characters)" type="password" name="password" required aria-required="true" maxlength="25" value="<?php output(@$password) ?>" /><br>
@@ -233,7 +233,7 @@
                     <br>
                     <?php output(@$validationMsg['password']) ?>
                 </p>
-                
+
                 <p>
                     <b>Confirm Password</b><br>
                     <input id='password2' placeholder="Input your Password again (should be match)" type="password" name="password2" required aria-required="true" maxlength="25" value="<?php output(@$password2) ?>" /><br>
@@ -242,15 +242,15 @@
                     <?php output(@$validationMsg['password2']) ?>
                 </p>
             </fieldset>
-            
+
             <div align="center">
                 <button type="submit" class="btn-register">Register</button>
             </div>
         </form>
     </main>
-   
-<?php 
+
+<?php
     // template footer
     include './inc/footer.php';
 
-?>    
+?>

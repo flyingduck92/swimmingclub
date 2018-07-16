@@ -1,5 +1,5 @@
-<?php 
-    
+<?php
+    ob_start();
     include 'core/init.php';
 
     // check loggedIn or not
@@ -15,7 +15,7 @@
         header('Location: swimmers/index.php');
         exit();
 
-    } 
+    }
 
     if(connect() == false) {
         header('Location: index.php');
@@ -50,19 +50,19 @@
         if(empty($validationMsg['form'])) {
             $username = htmlentities(trim($_GET['username']));
             $email = htmlentities(trim($_GET['email']));
-            
+
             $activateSwimmer = query('UPDATE swimmers set active = 1 WHERE username=:username', array('username' => $username));
             $activateParent = query('UPDATE parents set active = 1 WHERE email=:email', array('email' => $email));
 
             if(($activateSwimmer && $activateSwimmer) == 1) {
-                // if success redirect to success 
+                // if success redirect to success
                 header('location: activate.php?success');
 
             } else {
                 header('location: activate.php?failed');
             }
         }
-    
+
     } else {
         $validationMsg['form'] = errMsg('We do not recognised your requests. Have you registered yet?');
     }
@@ -74,17 +74,17 @@
         <!-- Content -->
         <div class="NotFound">
             <img class="dolphin" src="./assets/pics/dolphin.png" alt="dolphin">
-            <?php 
-                if(isset($_GET['success']) && empty($_GET['success'])) {                    
+            <?php
+                if(isset($_GET['success']) && empty($_GET['success'])) {
                     $validationMsg['form'] = successMsg('User activated');
                     echo "<h4>".output(@$validationMsg['form'])."</h4>";
                 }
                 elseif(isset($_GET['failed']) && empty($_GET['failed'])) {
                     $validationMsg['form'] = errMsg('Something happen with our system. Please try again later!');
                     echo "<h4>".output(@$validationMsg['form'])."</h4>";
-                
+
                 // show error here
-                } else if($validationMsg['form']) {    
+                } else if($validationMsg['form']) {
                     echo "<h4>".output(@$validationMsg['form'])."</h4>";
                 }
              ?>
@@ -93,7 +93,7 @@
 
     </main>
 
-<?php 
+<?php
     // template footer
     include './inc/footer.php';
-?>    
+?>

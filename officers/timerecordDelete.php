@@ -1,5 +1,5 @@
-<?php 
-
+<?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -13,7 +13,7 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
+    }
 
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
@@ -25,7 +25,7 @@
     if($_GET) {
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_GET[$field]);
 
             if(isNotEmpty($value)) {
@@ -34,8 +34,8 @@
                 if($message = typePatternCheck($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
-            } 
+                $submittedData[$field] = $value;
+            }
         }
         // print_r($submittedData);
 
@@ -44,24 +44,24 @@
         if($deleteTimeRecords) {
             header('Location: galaView.php?id='.$submittedData['gala_id'].'&delete_success');
         }
-        
+
     }
  ?>
 
  <main id="main-content">
-        
-        <?php 
-        if(!empty($validationMsg)) { 
-            echo '<h1>Oops something happen!</h1>';            
+
+        <?php
+        if(!empty($validationMsg)) {
+            echo '<h1>Oops something happen!</h1>';
             echo output(@$validationMsg['id']);
             echo '<h3>We cannot process your request please click <a href="galaView.php?id='.$submittedData['gala_id'].'">here</a> to go back to previous menu</h3>';
-        } 
+        }
         ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

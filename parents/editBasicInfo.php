@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 1) {
@@ -13,7 +14,7 @@
         header('Location: ../login.php');
         exit();
     }
-    
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -25,7 +26,7 @@
     if($_POST) {
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -42,7 +43,7 @@
                 if($message = checkAvailability($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
+                $submittedData[$field] = $value;
             } else {
                 if ($field == 'email') {}
                 else if(isRequired($field)) {
@@ -53,50 +54,50 @@
 
         // print_r($validationMsg);
         // print_r($submittedData);
-        
+
         if(empty($validationMsg)) {
 
             // if empty email -> use current email
             if(empty($submittedData['email'])) {
                 // 'parent_name','phone','address','postcode'
-                $updatePassword = query('UPDATE parents 
-                                     SET parent_name = :parent_name,  
-                                         phone = :phone,  
-                                         address = :address,  
-                                         postcode = :postcode  
-                                     WHERE id = :id', 
+                $updatePassword = query('UPDATE parents
+                                     SET parent_name = :parent_name,
+                                         phone = :phone,
+                                         address = :address,
+                                         postcode = :postcode
+                                     WHERE id = :id',
                               array(
-                                'id' => $userData[0]->id, 
+                                'id' => $userData[0]->id,
                                 'parent_name' => $submittedData['parent_name'],
                                 'phone' => $submittedData['phone'],
                                 'address' => $submittedData['address'],
                                 'postcode' => $submittedData['postcode']
-                            )); 
+                            ));
 
             // if !empty email -> change email
             } else {
                 // 'email','parent_name','phone','address','postcode'
-                $updatePassword = query('UPDATE parents 
-                                     SET email = :email,  
-                                         parent_name = :parent_name,  
-                                         phone = :phone,  
-                                         address = :address,  
-                                         postcode = :postcode  
-                                     WHERE id = :id', 
+                $updatePassword = query('UPDATE parents
+                                     SET email = :email,
+                                         parent_name = :parent_name,
+                                         phone = :phone,
+                                         address = :address,
+                                         postcode = :postcode
+                                     WHERE id = :id',
                               array(
-                                'id' => $userData[0]->id, 
+                                'id' => $userData[0]->id,
                                 'email' => $submittedData['email'],
                                 'parent_name' => $submittedData['parent_name'],
                                 'phone' => $submittedData['phone'],
                                 'address' => $submittedData['address'],
                                 'postcode' => $submittedData['postcode']
-                            )); 
+                            ));
 
                 // update session using after submit new email
                 $_SESSION['username'] = $submittedData['email'];
                 $username_from_session = $_SESSION['username'];
                 $roleId_from_session = $_SESSION['role_id'];
-                
+
                 // getUserData from general.php
                 $userData = getUserData($username_from_session, $roleId_from_session);
 
@@ -107,16 +108,16 @@
             }
         }
     }
-    
+
  ?>
 
     <main id="main-content">
-        
+
         <h1><a href="index.php">Back</a> / Edit Basic Information</h1>
         <hr>
 
         <form method="post" action="editBasicInfo.php">
-            <?php 
+            <?php
                 // print_r($userData);
                 // echo 'ID User '.$userData[0]->id;
              ?>
@@ -147,21 +148,21 @@
                 <input type="text" placeholder="Input postcode..." name="postcode" aria-required="true" maxlength="20" value="<?= (isset($userData[0]->postcode)) ? $userData[0]->postcode : output(@$postcode) ?>"/>
                 <?php output(@$validationMsg['postcode']) ?>
             </label><br><br>
-            <?php 
+            <?php
                 if(isset($_GET['success']) && empty($_GET['success'])) {
                     $validationMsg['form'] = successMsg('Profile Successfully Updated');
                     output(@$validationMsg['form']);
                     echo '<br><br>';
-                } 
+                }
             ?>
             <a href="#confirmation"><button type="button" class="info">Submit</button></a>
-            
+
             <!-- Modal for confirmation -->
             <div class="modal" id="confirmation">
                 <div class="modal-content">
                     <p>Are you sure?</p><br>
-                    <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                    <a><button type="submit" class="info">Yes</button></a>   
+                    <a href="#"><button type="button" class="edit">Cancel</button></a>
+                    <a><button type="submit" class="info">Yes</button></a>
                 </div>
             </div>
         </form>
@@ -175,12 +176,12 @@
                 id.type = 'text';
             } else {
                 id.type = 'password';
-            } 
+            }
         }
     </script>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

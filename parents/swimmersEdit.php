@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 1) {
@@ -13,7 +14,7 @@
         header('Location: ../login.php');
         exit();
     }
-    
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -28,7 +29,7 @@
         $_POST['active'] = (isset($_POST['active']) && ($_POST['active'] == 'on')) ? 1 : 0;
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -56,10 +57,10 @@
 
         // print_r($validationMsg);
         // print_r($_POST);
-        
+
         if(empty($validationMsg)) {
 
-            // if empty password 
+            // if empty password
             if(empty($_POST['password'])) {
                 $submittedData = array(
                     'id' => $_POST['id'],
@@ -68,13 +69,13 @@
                     'dob' => $_POST['dob']
                 );
 
-                $updateSwimmer = query('UPDATE swimmers 
-                                      SET fname = :fname, 
-                                          lname = :lname,  
+                $updateSwimmer = query('UPDATE swimmers
+                                      SET fname = :fname,
+                                          lname = :lname,
                                           dob = :dob
                                       WHERE id = :id', $submittedData);
-            
-            // if password not empty 
+
+            // if password not empty
             } else {
 
                 // encrypt password
@@ -89,48 +90,48 @@
                     'dob' => $_POST['dob']
                 );
 
-                $updateSwimmer = query('UPDATE swimmers 
-                                      SET password = :password, 
-                                          fname = :fname, 
-                                          lname = :lname,  
-                                          dob = :dob 
+                $updateSwimmer = query('UPDATE swimmers
+                                      SET password = :password,
+                                          fname = :fname,
+                                          lname = :lname,
+                                          dob = :dob
                                       WHERE id = :id', $submittedData);
 
             }
-            
-            if($updateSwimmer) { 
+
+            if($updateSwimmer) {
                 header('Location: swimmersList.php?update_success');
-            }   
+            }
 
         }
 
     }
-    
+
  ?>
 
     <main id="main-content">
 
-        <?php 
-            // get data from page load by id 
+        <?php
+            // get data from page load by id
             if($_GET) {
 
                 $id = trim($_GET['id']);
                 $id = htmlentities($id, ENT_COMPAT, 'UTF-8');
-               
+
                 if($message = typePatternCheck('id', (int)$id)) {
                     $validationMsg['id'] = errMsg($message);
                 }
 
-                if(isset($validationMsg['id'])) { 
-                    echo '<h1>Oops something happen!</h1>';            
+                if(isset($validationMsg['id'])) {
+                    echo '<h1>Oops something happen!</h1>';
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="parentsList.php">here</a> to go back to previous menu</h3>';
-                } 
-                
+                }
+
             }
         ?>
 
-        <?php 
+        <?php
             // if no error load
             // print_r($validationMsg);
             if(empty($validationMsg['id']) && isset($_GET['id'])) {
@@ -141,7 +142,7 @@
                     // echo '***** <br>';
                     // print_r($queryOne);
 
-        ?>  
+        ?>
                     <h1><a href="swimmersList.php">Back</a> / Edit Swimmer</h1>
                     <hr>
 
@@ -175,35 +176,35 @@
                             <input type="date" name="dob" aria-required="true" maxlength="20" value="<?= (isset($queryOne[0]->dob)) ? $queryOne[0]->dob : output(@$dob) ?>"/>
                             <?php output(@$validationMsg['dob']) ?>
                         </label><br><br>
-                        
+
                         <a href="#confirmation"><button type="button" class="info">Submit</button></a>
-                        
+
                         <!-- Modal for confirmation -->
                         <div class="modal" id="confirmation">
                             <div class="modal-content">
                                 <p>Are you sure?</p><br>
-                                <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                                <a><button type="submit" class="info">Yes</button></a>   
+                                <a href="#"><button type="button" class="edit">Cancel</button></a>
+                                <a><button type="submit" class="info">Yes</button></a>
                             </div>
                         </div>
-                    </form>           
+                    </form>
 
-        <?php       
+        <?php
                 } else {
 
-                    // if the id type is valid but doesn't exist 
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    // if the id type is valid but doesn't exist
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="swimmersList.php">here</a> to go back to previous menu</h3>';
 
-                } 
+                }
 
             } else {
 
                  // if the id doesn't isset
-                echo '<h1>Oops something happen!</h1>';    
-                $validationMsg['id'] = errMsg('Unindentified id!');        
+                echo '<h1>Oops something happen!</h1>';
+                $validationMsg['id'] = errMsg('Unindentified id!');
                 echo output(@$validationMsg['id']);
                 echo '<h3>We cannot process your request please click <a href="swimmersList.php">here</a> to go back to previous menu</h3>';
 
@@ -219,12 +220,12 @@
                 id.type = 'text';
             } else {
                 id.type = 'password';
-            } 
+            }
         }
     </script>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

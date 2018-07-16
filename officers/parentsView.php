@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -28,7 +29,7 @@
         // print_r($_POST);
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -37,36 +38,36 @@
                 if($message = typePatternCheck($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
-            } 
-        }        
+                $submittedData[$field] = $value;
+            }
+        }
     }
-    
+
  ?>
 
     <main id="main-content">
 
-        <?php 
-            // get data from page load where id 
+        <?php
+            // get data from page load where id
             if($_GET) {
 
                 $id = trim((int)$_GET['id']);
                 $id = htmlentities($id, ENT_COMPAT, 'UTF-8');
-               
+
                 if($message = typePatternCheck('id', $id)) {
                     $validationMsg['id'] = errMsg($message);
                 }
 
-                if($validationMsg) { 
-                    echo '<h1>Oops something happen!</h1>';            
+                if($validationMsg) {
+                    echo '<h1>Oops something happen!</h1>';
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="parentsList.php">here</a> to go back to previous menu</h3>';
                 }
-                
+
             }
         ?>
 
-        <?php 
+        <?php
             // if no error load
             // print_r($validationMsg);
             if(empty($validationMsg['id'])) {
@@ -77,7 +78,7 @@
                 // if found data
                 if($queryOne) {
 
-        ?>  
+        ?>
                     <h1><a href="parentsList.php">Parent List</a> / Parent ID <?= $queryOne[0]->id ?></h1>
                     <hr>
 
@@ -110,20 +111,20 @@
                                 <?= ($queryOne[0]->active)? 'Active':'Not Active' ?>
                             </p>
                         </div>
-                        
+
                     </div>
 
-                <?php 
+                <?php
                     // calculate swimmers by email
-                    $swimmersList = query('SELECT s.id, s.username, s.fname, s.lname, s.dob, s.active 
+                    $swimmersList = query('SELECT s.id, s.username, s.fname, s.lname, s.dob, s.active
                                        FROM swimmers s JOIN parents p ON s.email = p.email
-                                       WHERE p.email = :email ORDER BY s.id', 
+                                       WHERE p.email = :email ORDER BY s.id',
                                           array('email'=>$queryOne[0]->email)
                                     );
 
                     // print_r($swimmersList);
 
-                    // if swimmer already 
+                    // if swimmer already
                     if(count($swimmersList) > 0) {
 
                         if(count($swimmersList) < 6) {
@@ -141,7 +142,7 @@
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
-                        
+
                         <?php
                             // loop data
                             for($i=0; $i < count($swimmersList); $i++) {
@@ -155,13 +156,13 @@
                             echo    '<td>
                                         <a href="swimmersView.php?id='.$swimmersList[$i]->id.'"><button class="info">View</button></a>
                                     </td>
-                                </tr>';        
+                                </tr>';
                             }
 
                          ?>
                     </table>
 
-                <?php 
+                <?php
 
                     } else {
 
@@ -169,28 +170,28 @@
                         echo '<div class="row">
                                 <div class="column"><h3>No entries</h3></div>
                             </div>';
-                    }                
+                    }
 
                  ?>
 
-        <?php       
+        <?php
 
                 } else {
 
-                    // if the id type is valid but doesn't exist 
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    // if the id type is valid but doesn't exist
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="parentsList.php">here</a> to go back to previous menu</h3>';
 
-                } 
+                }
             }
         ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

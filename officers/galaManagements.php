@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,15 +13,15 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
-    
+
  ?>
 
     <main id="main-content">
-        
+
         <a href="galaList.php"><div class="box">Gala List</div></a>
         <a href="groupList.php"><div class="box">Group List</div></a>
         <a href="categoryList.php"><div class="box">Category List</div></a>
@@ -30,8 +31,8 @@
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

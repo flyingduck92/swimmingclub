@@ -1,5 +1,6 @@
- 
-<?php 
+
+<?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 1) {
@@ -19,7 +20,7 @@
     include '../inc/loggedIn_nav.php';
 
     // print_r($userData);
-    
+
  ?>
 
     <main id="main-content">
@@ -50,9 +51,9 @@
                 <button class="delete" style="padding: 5px;">Change Password</button>
             </a>
         </label>
-        
-<?php 
-    
+
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -28,7 +29,7 @@
         // print_r($_POST);
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -37,36 +38,36 @@
                 if($message = typePatternCheck($field, $value)) {
                     $validationMsg[$field] = errMsg($message);
                 }
-                $submittedData[$field] = $value;       
-            } 
-        }        
+                $submittedData[$field] = $value;
+            }
+        }
     }
-    
+
  ?>
 
     <main id="main-content">
 
-        <?php 
-            // get data from page load where id 
+        <?php
+            // get data from page load where id
             if($_GET) {
 
                 $id = trim((int)$_GET['id']);
                 $id = htmlentities($id, ENT_COMPAT, 'UTF-8');
-               
+
                 if($message = typePatternCheck('id', $id)) {
                     $validationMsg['id'] = errMsg($message);
                 }
 
-                if($validationMsg) { 
-                    echo '<h1>Oops something happen!</h1>';            
+                if($validationMsg) {
+                    echo '<h1>Oops something happen!</h1>';
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="groupList.php">here</a> to go back to previous menu</h3>';
                 }
-                
+
             }
         ?>
 
-        <?php 
+        <?php
             // if no error load
             // print_r($validationMsg);
             if(empty($validationMsg['id'])) {
@@ -76,18 +77,18 @@
                 // if found data
                 if($queryOne) {
 
-        ?>  
+        ?>
                     <h1><a href="galaList.php">Gala List</a> / Gala ID <?= $queryOne[0]->id ?></h1>
                     <hr>
 
-                    <?php 
+                    <?php
 
                         // show notification success add record
                         if(isset($_GET['success']) && empty($_GET['success'])) {
                             $validationMsg['form'] = successMsg('Time Record Successfully Added');
                             echo '<br>';
                             output(@$validationMsg['form']);
-                        } 
+                        }
                         // show notification update record
                         if(isset($_GET['update_success']) && empty($_GET['update_success'])) {
                             $validationMsg['form'] = successMsg('Time Record Successfully Updated');
@@ -117,7 +118,7 @@
                                 <label><b>Date:</b> </label>
                                 <?= $queryOne[0]->date ?>
                             </p>
-                            <?php 
+                            <?php
                                 // if note available
                                 if(!empty($queryOne[0]->note)){
                                     echo '<p>
@@ -141,14 +142,14 @@
                                 <?= $queryOne[0]->venue_name ?>
                             </p>
                         </div>
-                        
+
                     </div>
 
-                <?php 
+                <?php
                     // calculate swimmers
                     $timerecords = query('SELECT id,gala_id,line_number, swimmer_name, recordtime, finish_number  FROM timerecords WHERE gala_id = :id ORDER BY line_number', array('id'=>$queryOne[0]->id));
 
-                    // if swimmer already 
+                    // if swimmer already
                     if(count($timerecords) > 0) {
 
                         if(count($timerecords) < 5) {
@@ -164,7 +165,7 @@
                             <th>Finish Number</th>
                             <th>Action</th>
                         </tr>
-                        
+
                         <?php
                             // loop data
                             for($i=0; $i < count($timerecords); $i++) {
@@ -180,18 +181,18 @@
                                         <div class="modal" id="'.$timerecords[$i]->id.'">
                                             <div class="modal-content">
                                                 <p>Delete <b>'.$timerecords[$i]->swimmer_name.'</b> ?</p><br>
-                                                <a href="#cancel"><button class="info">Cancel</button></a>                            
-                                                <a href="timerecordDelete.php?id='.$timerecords[$i]->id.'&gala_id='.$_GET['id'].'"><button class="delete">Delete</button></a>   
+                                                <a href="#cancel"><button class="info">Cancel</button></a>
+                                                <a href="timerecordDelete.php?id='.$timerecords[$i]->id.'&gala_id='.$_GET['id'].'"><button class="delete">Delete</button></a>
                                             </div>
                                         </div>
                                     </td>
-                                </tr>';        
+                                </tr>';
                             }
 
                          ?>
                     </table>
 
-                <?php 
+                <?php
 
                     } else {
 
@@ -200,29 +201,29 @@
                         echo '<div class="row">
                                 <div class="column"><h3>No entries</h3></div>
                         </div>';
-                    }                
+                    }
 
 
                  ?>
 
-        <?php       
+        <?php
 
                 } else {
 
-                    // if the id type is valid but doesn't exist 
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    // if the id type is valid but doesn't exist
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="galaList.php">here</a> to go back to previous menu</h3>';
 
-                } 
+                }
             }
         ?>
 
     </main>
 
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>

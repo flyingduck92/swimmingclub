@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     include '../core/init.php';
 
     if (loggedIn() && $_SESSION['role_id'] == 2) {
@@ -12,8 +13,8 @@
     } elseif (!loggedIn()) {
         header('Location: ../login.php');
         exit();
-    } 
-    
+    }
+
     include '../inc/loggedIn_header.php';
     include '../inc/loggedIn_nav.php';
     include '../core/function/managementPageFunc.php';
@@ -26,7 +27,7 @@
         $_POST['active'] = (isset($_POST['active']) && ($_POST['active'] == 'on')) ? 1 : 0;
 
         // checking all required field
-        foreach ($expected as $field) {           
+        foreach ($expected as $field) {
             $value = trim($_POST[$field]);
 
             if(isNotEmpty($value)) {
@@ -72,13 +73,13 @@
 
                 // print_r($officerData);
 
-                $officersUpdate  = query('UPDATE officers 
-                                   SET fname = :fname, 
-                                       lname = :lname,  
-                                       dob = :dob,  
-                                       active = :active  
+                $officersUpdate  = query('UPDATE officers
+                                   SET fname = :fname,
+                                       lname = :lname,
+                                       dob = :dob,
+                                       active = :active
                                    WHERE id = :id', $officerData);
-            
+
             // if password not empty
             } else {
                 // Encrypt Password
@@ -94,12 +95,12 @@
                         'active' => $_POST['active']
                 );
 
-                $officersUpdate  = query('UPDATE officers 
+                $officersUpdate  = query('UPDATE officers
                                    SET password = :password,
-                                       fname = :fname, 
-                                       lname = :lname,  
-                                       dob = :dob,  
-                                       active = :active  
+                                       fname = :fname,
+                                       lname = :lname,
+                                       dob = :dob,
+                                       active = :active
                                    WHERE id = :id', $officerData);
 
             }
@@ -109,34 +110,34 @@
             }
 
         }
-        
+
     }
 
  ?>
 
     <main id="main-content">
 
-        <?php 
-            // get data from page load by id 
+        <?php
+            // get data from page load by id
             if($_GET) {
 
                 $id = trim($_GET['id']);
                 $id = htmlentities($id, ENT_COMPAT, 'UTF-8');
-               
+
                 if($message = typePatternCheck('id', (int)$id)) {
                     $validationMsg['id'] = errMsg($message);
                 }
 
-                if(isset($validationMsg['id'])) { 
-                    echo '<h1>Oops something happen!</h1>';            
+                if(isset($validationMsg['id'])) {
+                    echo '<h1>Oops something happen!</h1>';
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="officersList.php">here</a> to go back to previous menu</h3>';
-                } 
-                
+                }
+
             }
         ?>
-        
-        <?php 
+
+        <?php
             // if no error load
             // print_r($validationMsg);
             if(empty($validationMsg['id']) && isset($_GET['id'])) {
@@ -147,14 +148,14 @@
                 // if found data
                 if($queryOne) {
 
-        ?>  
+        ?>
                     <h1><a href="officersList.php">Officer List</a> / Edit Officer</h1>
                     <hr>
 
                     <form data-ready="false" method="post" action="officersEdit.php?id=<?= $_GET['id'] ?>">
-                        
+
                         <label>
-                            Officer ID 
+                            Officer ID
                             <input readonly required aria-required="true" type="text" name="id" placeholder="Please type id..." maxlength="20"  value="<?= (isset($queryOne[0]->id)) ? $queryOne[0]->id : output(@$id) ?>">
                             <?php output(@$validationMsg['id']) ?>
                         </label><br><br>
@@ -189,38 +190,38 @@
                                 <span class="slider"></span>
                             </label><br><br>
                         </label><br><br>
-                        
+
                         <a href="#confirmation"><button type="button" class="info">Submit</button></a>
-                        
+
                         <!-- Modal for confirmation -->
                         <div class="modal" id="confirmation">
                             <div class="modal-content">
                                 <p>Are you sure?</p><br>
-                                <a href="#"><button type="button" class="edit">Cancel</button></a>                            
-                                <a><button type="submit" class="info">Yes</button></a>   
+                                <a href="#"><button type="button" class="edit">Cancel</button></a>
+                                <a><button type="submit" class="info">Yes</button></a>
                             </div>
                         </div>
                     </form>
-        <?php       
+        <?php
                 } else {
 
-                    // if the id type is valid but doesn't exist 
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    // if the id type is valid but doesn't exist
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="officersList.php">here</a> to go back to previous menu</h3>';
 
-                } 
-            
+                }
+
             } else {
 
                     // if the id doesn't isset
-                    echo '<h1>Oops something happen!</h1>';    
-                    $validationMsg['id'] = errMsg('Unindentified id!');        
+                    echo '<h1>Oops something happen!</h1>';
+                    $validationMsg['id'] = errMsg('Unindentified id!');
                     echo output(@$validationMsg['id']);
                     echo '<h3>We cannot process your request please click <a href="officersList.php">here</a> to go back to previous menu</h3>';
 
-                } 
+                }
         ?>
 
     <script>
@@ -230,11 +231,11 @@
                 id.type = 'text';
             } else {
                 id.type = 'password';
-            } 
+            }
         }
     </script>
-<?php 
-    
+<?php
+
     include '../inc/loggedIn_footer.php';
 
  ?>
