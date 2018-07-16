@@ -18,5 +18,5 @@ Swimmers
 * password: user123
 
 ```
-Database included in **pwa.rar**
+Database included in **pdocourse.sql.rar**
 ```
