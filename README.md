@@ -18,5 +18,5 @@ Swimmers
 * password: user123
 
 ```
-Database included in **pdocourse.sql.rar**
+Database file is **pdocourse.sql.**
 ```
